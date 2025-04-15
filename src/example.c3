@@ -1,7 +1,3 @@
-# argparse
-C3 Argparse
-
-```c
 module main;
 import std::io;
 import args;
@@ -17,16 +13,20 @@ fn void main(String[] args)
 				.short_name="r",
 				.long_name="required",
 				.description="this needs to be here",
+				// .value_read="",
 				.example_value="EXAMPLE",
 				.is_required=true,
+				// .is_found=false,
 				.is_value_required=true,
 			},
 			{
 				.short_name="n",
 				.long_name="not_required",
 				.description="this doesn't need to be here",
+				// .value_read="",
 				.example_value="",
 				.is_required=false,
+				// .is_found=false,
 				.is_value_required=false,
 			}
 		}
@@ -44,4 +44,3 @@ fn void main(String[] args)
 	io::printfn("arg_value: %s", args::arg_value(options, "r"))!!;
 	io::printfn("arg_value: %s", args::arg_value(options, "required"))!!;	
 }
-```
