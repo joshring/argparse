@@ -21,12 +21,12 @@ faultdef
 struct Option
 {
 	String[] 	valid_values; 		// for when there are only certain valid values to choose from
-    String 		value_read; 		// from args
-    String 		short_name;
-    String 		long_name;
-    String 		description;
+	String 		value_read; 		// from args
+	String 		short_name;
+	String 		long_name;
+	String 		description;
 	String 		example_value;		// used for errors if is_value_required is set
-    bool   		is_required;
+	bool   		is_required;
 	bool 		is_found; 			// is the argument found in args
 	bool 		is_value_required; 	// is a value for the argument found in args
 }
@@ -49,7 +49,7 @@ fn Option[]? parse(
 	bool next_arg_is_value = false;
 	
 	foreach(arg_idx, arg : args)
-    {
+	{
 		// program name is the first arg
 		if(arg_idx == 0) 
 		{
@@ -70,7 +70,7 @@ fn Option[]? parse(
 		}
 
 		foreach(&option : options)
-        {	
+		{	
 			// Skip input which are not matching the current option
 			if (!(arg.starts_with("-") && arg["-".len..].starts_with(option.short_name)) &&
 				!(arg.starts_with("--") && arg["--".len..].starts_with(option.long_name))
@@ -128,51 +128,51 @@ fn Option[]? parse(
 fn bool? has_arg_short(Option[] options, String name)
 {
 	foreach(option : options)
-    {
-        if (name == option.short_name)
-        {
-            return option.is_found;
-        }
-    }
+	{
+		if (name == option.short_name)
+		{
+			return option.is_found;
+		}
+	}
 
-    io::eprintfn("Argument '%s' is not defined", name);
-    return ARG_NOT_FOUND?;
+	io::eprintfn("Argument '%s' is not defined", name);
+	return ARG_NOT_FOUND?;
 }
 
 fn bool? has_arg_long(Option[] options, String name)
 {
 	foreach(option : options)
-    {
-        if (name == option.long_name)
-        {
-            return option.is_found;
-        }
-    }
+	{
+		if (name == option.long_name)
+		{
+			return option.is_found;
+		}
+	}
 
-    io::eprintfn("Argument '%s' is not defined", name);
-    return ARG_NOT_FOUND?;
+	io::eprintfn("Argument '%s' is not defined", name);
+	return ARG_NOT_FOUND?;
 }
 
 
 fn String? arg_value(Option[] options, String name)
 {
-    foreach(option : options)
-    {
-        if (name == option.long_name || name == option.short_name)
-        {
-            return option.value_read;
-        }
-    }
+	foreach(option : options)
+	{
+		if (name == option.long_name || name == option.short_name)
+		{
+			return option.value_read;
+		}
+	}
 
-    io::eprintfn("Argument '%s' is not defined", name);
-    return ARG_NOT_FOUND?;
+	io::eprintfn("Argument '%s' is not defined", name);
+	return ARG_NOT_FOUND?;
 }
 
 
 fn void? validate_input(Option[] options)
 {
-    foreach(option : options)
-    {
+	foreach(option : options)
+	{
 		if(option.short_name == "")
 		{
 			if(option.long_name == "")
@@ -202,8 +202,8 @@ fn void? validate_input(Option[] options)
 			return NON_FALSE_IS_FOUND?;
 		}
 			
-    }
-    return;
+	}
+	return;
 }
 
 
@@ -495,7 +495,7 @@ fn void? check_options_after_parse(
 			
 			return PARSE_FAILED?;
 		}		
-    }
+	}
 	return;
 }
 
@@ -529,22 +529,22 @@ fn void? print_usage(Option[] options, String[] args)
 {
 	String program_name = get_program_name(args)!;
 	
-    io::printfn("Usage: %s [OPTIONS]\nOptions:", program_name);
+	io::printfn("Usage: %s [OPTIONS]\nOptions:", program_name);
 
 	foreach(option: options)
-    {
-        if (option.short_name && option.long_name)
-        {
-            io::printfn("  -%s, --%-10s\t\t%s", option.short_name, option.long_name, option.description);
-        } 
+	{
+		if (option.short_name && option.long_name)
+		{
+			io::printfn("  -%s, --%-10s\t\t%s", option.short_name, option.long_name, option.description);
+		} 
 		else if (option.long_name)
-        {
-            io::printfn("      --%-10s\t\t%s", option.long_name, option.description);
-        }
+		{
+			io::printfn("      --%-10s\t\t%s", option.long_name, option.description);
+		}
 		else if (option.short_name)
-        {
-            io::printfn("  -%s        \t\t\t%s", option.short_name, option.description);
-        }
-    }
+		{
+			io::printfn("  -%s        \t\t\t%s", option.short_name, option.description);
+		}
+	}
 }
 

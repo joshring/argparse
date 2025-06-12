@@ -45,7 +45,7 @@ macro bool? equal_value(input1, input2, validate_ptr_addr=true, validate_ptr_val
 	
 	$if $typeof(input1).kindof == STRUCT:
 	
-        $foreach $i, $member : $Type.membersof:
+		$foreach $i, $member : $Type.membersof:
 
 			$switch $member.kindof:
 			
@@ -139,7 +139,7 @@ macro bool? equal_value(input1, input2, validate_ptr_addr=true, validate_ptr_val
 
 			$endswitch
 			
-        $endforeach
+		$endforeach
 
 	$endif;
 	
@@ -160,11 +160,11 @@ bitstruct BsEx : char
 
 union UnionEx
 {
-    char 	as_byte;
-    short 	as_short;
-    int 	as_int;
+	char 	as_byte;
+	short 	as_short;
+	int 	as_int;
 	uint 	as_uint;
-    long 	as_long;
+	long 	as_long;
 	ulong 	as_ulong;
 	int128 	as_int128; 	// 128bit
 	uint128 as_uint128; // 128bit
