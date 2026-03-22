@@ -1,7 +1,7 @@
 
 { 
   "provides" : "argparse",
-  "sources": ["src/**"],
+  "sources": ["src/argsparse.c3"],
   "targets" : {
     "macos-x64" : {
       "linked-libraries" : []
