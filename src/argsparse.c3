@@ -136,7 +136,7 @@ fn bool? has_arg_short(Option[] options, String name)
 	}
 
 	io::eprintfn("Argument '%s' is not defined", name);
-	return ARG_NOT_FOUND?;
+	return ARG_NOT_FOUND~;
 }
 
 fn bool? has_arg_long(Option[] options, String name)
@@ -150,7 +150,7 @@ fn bool? has_arg_long(Option[] options, String name)
 	}
 
 	io::eprintfn("Argument '%s' is not defined", name);
-	return ARG_NOT_FOUND?;
+	return ARG_NOT_FOUND~;
 }
 
 
@@ -165,7 +165,7 @@ fn String? arg_value(Option[] options, String name)
 	}
 
 	io::eprintfn("Argument '%s' is not defined", name);
-	return ARG_NOT_FOUND?;
+	return ARG_NOT_FOUND~;
 }
 
 
@@ -177,29 +177,29 @@ fn void? validate_input(Option[] options)
 		{
 			if(option.long_name == "")
 			{
-				return EMPTY_SHORT_AND_LONG_NAME?;
+				return EMPTY_SHORT_AND_LONG_NAME~;
 			}
 		}
 		
 		if(option.description == "")
 		{
-			return EMPTY_DESCRIPTION?;
+			return EMPTY_DESCRIPTION~;
 		}
 		
 		// can't have examples when a value isn't required
 		if(option.valid_values.len > 0 && !option.is_value_required)
 		{
-			return VALID_VALUES_ONLY_WHEN_VALUE_REQUIRED?;
+			return VALID_VALUES_ONLY_WHEN_VALUE_REQUIRED~;
 		}
 		
 		if(option.value_read != "")
 		{
-			return NON_EMPTY_VALUE_READ?;
+			return NON_EMPTY_VALUE_READ~;
 		}
 		
 		if(option.is_found == true)
 		{
-			return NON_FALSE_IS_FOUND?;
+			return NON_FALSE_IS_FOUND~;
 		}
 			
 	}
@@ -251,7 +251,7 @@ fn ParseReturn? parse_short_name(
 				else
 				{
 					io::eprintfn("Invalid value: '%s' valid values: %s", args[arg_idx+1], option.valid_values);
-					return INVALID_VALUE?;
+					return INVALID_VALUE~;
 				}
 			}
 			else
@@ -303,7 +303,7 @@ fn ParseReturn? parse_short_name(
 				else
 				{
 					io::eprintfn("Invalid value: '%s' valid values: %s", value_read, option.valid_values);
-					return INVALID_VALUE?;
+					return INVALID_VALUE~;
 				}
 			}
 			else
@@ -366,7 +366,7 @@ fn ParseReturn? parse_long_name(
 				else
 				{
 					io::eprintfn("Invalid value: '%s' valid values: %s", args[arg_idx+1], option.valid_values);
-					return INVALID_VALUE?;
+					return INVALID_VALUE~;
 				}
 			}
 			else
@@ -412,7 +412,7 @@ fn ParseReturn? parse_long_name(
 				else
 				{
 					io::eprintfn("Invalid value: '%s' valid values: %s", value_read, option.valid_values);
-					return INVALID_VALUE?;
+					return INVALID_VALUE~;
 				}
 			}
 			else
@@ -456,7 +456,7 @@ fn void? check_options_after_parse(
 				io::eprintfn("Option '--%s' is a required argument", option.long_name);
 			}
 			
-			return PARSE_FAILED?;
+			return PARSE_FAILED~;
 		}
 		
 		if(option.is_required && option.is_value_required && option.value_read == "")
@@ -493,7 +493,7 @@ fn void? check_options_after_parse(
 				);
 			}
 			
-			return PARSE_FAILED?;
+			return PARSE_FAILED~;
 		}		
 	}
 	return;
@@ -504,7 +504,7 @@ fn String? get_program_name(String[] args)
 {
 	if(args[0].len == 0)
 	{
-		return INVALID_PROGRAM_NAME?;
+		return INVALID_PROGRAM_NAME~;
 	}
 	
 	String[] program_split;
@@ -518,7 +518,7 @@ fn String? get_program_name(String[] args)
 	}
 	else 
 	{
-		return INVALID_PROGRAM_NAME?;
+		return INVALID_PROGRAM_NAME~;
 	}
 	
 	return program_split[^1];
