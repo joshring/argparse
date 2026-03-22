@@ -37,7 +37,7 @@ faultdef
 <*
  compare the values of each input, can optionally only compare ptr values, or ptr addresses
  
- @require @typeis(input1, $typeof(input2)) : "the type of input1 must match the type of input2"
+ @require $typeof(input1) == $typeof(input2) : "the type of input1 must match the type of input2"
 *>
 macro bool? equal_value(input1, input2, validate_ptr_addr=true, validate_ptr_values=false)
 {
@@ -93,7 +93,7 @@ macro bool? equal_value(input1, input2, validate_ptr_addr=true, validate_ptr_val
 					if (validate_ptr_addr && 
 						$member.get(input1).ptr != $member.get(input2)) return false;
 							
-					if (validate_ptr_values) return ANY_TYPE_CANNOT_COMPARE_BY_VALUE?;
+					if (validate_ptr_values) return ANY_TYPE_CANNOT_COMPARE_BY_VALUE~;
 
 				$case POINTER:
 					
@@ -110,29 +110,20 @@ macro bool? equal_value(input1, input2, validate_ptr_addr=true, validate_ptr_val
 					
 					if (validate_ptr_values)
 					{
-						// Find the inner type being pointed to, we need to know if it's pointing to void or not
 						var $InnerType = $typeof($member.get(input1));
-						
-						while ($InnerType.inner.kindof == POINTER)
-						{
-							$InnerType = $InnerType.inner;
-						}
-						
-						// recursively check equality
-						$if $InnerType.kindof != VOID:
+
+						// recursively check equality (skip void pointers)
+						$if $InnerType.inner.kindof != VOID:
 							if (!equal_value(*$member.get(input1), *$member.get(input2))!) return false;
-						$endif
-						
-						// void must cast to bytes before we can check
-						$if $InnerType.kindof == VOID:
-							return VOID_TYPE_CANNOT_COMPARE_BY_VALUE?;
+						$else
+							return VOID_TYPE_CANNOT_COMPARE_BY_VALUE~;
 						$endif
 					}
 				
 				// Returning a fault as cannot be supported
 				// Create a type which excludes these to compare
 				$case UNION:
-					return UNION_NOT_SUPPORTED?;
+					return UNION_NOT_SUPPORTED~;
 					
 				$case BITSTRUCT:
 					return BITSTRUCT_NOT_SUPPORTED;
@@ -277,10 +268,10 @@ fn void test_equal_value() @test
 		
 	assert(
 		equal_value(
-			ex, 
-			ex5, 
+			ex,
+			ex5,
 			validate_ptr_addr: false,
-		)!! == false, "void_ptr was changed, reading pointer address disabled"
+		)!! == true, "void_ptr was changed, but pointer address check disabled so should be the same"
 	);
 		
 	assert(
