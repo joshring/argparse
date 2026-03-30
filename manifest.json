@@ -4,16 +4,19 @@
   "sources": ["src/argsparse.c3"],
   "targets" : {
     "macos-x64" : {
-      "linked-libraries" : []
+  		"linked-libraries" : []
     },
     "macos-aarch64" : {
-      "linked-libraries" : []
+  		"linked-libraries" : []
     },
     "linux-x64" : {
-      "linked-libraries" : []
+		"linked-libraries" : []
     },
-	  "windows-x64" : {
-      "linked-libraries" : []
+	"linux-aarch64" : {                                                                                                                     
+		"linked-libraries" : []                                                                                                                 
+    },  
+	"windows-x64" : {
+    	"linked-libraries" : []
     }
   }
 }
